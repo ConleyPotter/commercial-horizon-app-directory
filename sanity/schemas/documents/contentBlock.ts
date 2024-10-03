@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity';
 
-export const contentBlockType = defineType({
+export default defineType({
 	name: 'contentBlock',
 	title: 'Content Block',
 	type: 'document',
@@ -30,13 +30,23 @@ export const contentBlockType = defineType({
 				type: 'reference',
 				to: [{ type: 'cta' }], preview: { select: { title: 'ctaCopy' } },
 			}],
-			hidden: ({ document }) => document?.variant == 'CTA group',
+			hidden: ({ document }) => document?.variant !== 'CTA group' && document?.variant !== 'gallery',
 			validation: (Rule) => Rule.max(3),
+		}),
+		defineField({
+			name: 'heading',
+			type: 'string',
+			hidden: ({ document }) => document?.variant !== 'gallery',
+		}),
+		defineField({
+			name: 'subheadline',
+			type: 'string',
+			hidden: ({ document }) => document?.variant !== 'gallery',
 		}),
 		defineField({ 
 			name: 'responsiveImage', 
 			type: 'image',
-			hidden: ({ document }) => document?.variant !== 'full width image',
+			hidden: ({ document }) => document?.variant !== 'responsive image',
 		}),
 		defineField({
 			name: 'gallery', 
@@ -48,7 +58,7 @@ export const contentBlockType = defineType({
 			name: 'richTextBlock',
 			type: 'array',
 			of: [
-				{ type: 'block'},
+				{ type: 'block' },
 				{ type: 'cta' },
 				{ type: 'image' },
 			],

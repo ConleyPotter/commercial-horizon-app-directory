@@ -68,6 +68,209 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type ContentBlock = {
+  _id: string;
+  _type: "contentBlock";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  variant?: "rich text block" | "gallery" | "columns" | "responsive image" | "CTA group";
+  ctaGroup?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "cta";
+  }>;
+  heading?: string;
+  subheadline?: string;
+  responsiveImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  gallery?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  richTextBlock?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    title?: string;
+    ctaCopy?: string;
+    link?: string;
+    icon?: string;
+    _type: "cta";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  twoColumns?: {
+    columnOne?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "contentBlock";
+    }>;
+    columnTwo?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "contentBlock";
+    }>;
+  };
+};
+
+export type Cta = {
+  _id: string;
+  _type: "cta";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  ctaCopy?: string;
+  link?: string;
+  icon?: string;
+};
+
+export type MenuItem = {
+  _id: string;
+  _type: "menuItem";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  menu?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "menu";
+  };
+  type?: "normal" | "cta" | "megaMenu" | "image";
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  ctaValues?: {
+    ctaCopy?: string;
+    link?: string;
+    button?: boolean;
+    buttonText?: string;
+    icon?: string;
+  };
+  children?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "menuItem";
+  }>;
+  featuredPosts?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "post";
+  }>;
+};
+
+export type Menu = {
+  _id: string;
+  _type: "menu";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  items?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "menuItem";
+  }>;
+};
+
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  featured_image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  slug?: Slug;
+  meta_data?: {
+    meta_title?: string;
+    meta_description?: string;
+  };
+  blocks?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "contentBlock";
+  }>;
+};
+
 export type Post = {
   _id: string;
   _type: "post";
@@ -269,21 +472,17 @@ export type SanityAssistInstructionTask = {
 
 export type SanityAssistTaskStatus = {
   _type: "sanity.assist.task.status";
-  tasks?: Array<
-    {
-      _key: string;
-    } & SanityAssistInstructionTask
-  >;
+  tasks?: Array<{
+    _key: string;
+  } & SanityAssistInstructionTask>;
 };
 
 export type SanityAssistSchemaTypeAnnotations = {
   _type: "sanity.assist.schemaType.annotations";
   title?: string;
-  fields?: Array<
-    {
-      _key: string;
-    } & SanityAssistSchemaTypeField
-  >;
+  fields?: Array<{
+    _key: string;
+  } & SanityAssistSchemaTypeField>;
 };
 
 export type SanityAssistOutputType = {
@@ -336,23 +535,18 @@ export type SanityAssistInstructionUserInput = {
 };
 
 export type SanityAssistInstructionPrompt = Array<{
-  children?: Array<
-    | {
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & SanityAssistInstructionFieldRef)
-    | ({
-        _key: string;
-      } & SanityAssistInstructionContext)
-    | ({
-        _key: string;
-      } & SanityAssistInstructionUserInput)
-  >;
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  } | {
+    _key: string;
+  } & SanityAssistInstructionFieldRef | {
+    _key: string;
+  } & SanityAssistInstructionContext | {
+    _key: string;
+  } & SanityAssistInstructionUserInput>;
   style?: "normal";
   listItem?: never;
   markDefs?: null;
@@ -373,53 +567,22 @@ export type SanityAssistInstruction = {
   title?: string;
   userId?: string;
   createdById?: string;
-  output?: Array<
-    | ({
-        _key: string;
-      } & SanityAssistOutputField)
-    | ({
-        _key: string;
-      } & SanityAssistOutputType)
-  >;
+  output?: Array<{
+    _key: string;
+  } & SanityAssistOutputField | {
+    _key: string;
+  } & SanityAssistOutputType>;
 };
 
 export type SanityAssistSchemaTypeField = {
   _type: "sanity.assist.schemaType.field";
   path?: string;
-  instructions?: Array<
-    {
-      _key: string;
-    } & SanityAssistInstruction
-  >;
+  instructions?: Array<{
+    _key: string;
+  } & SanityAssistInstruction>;
 };
 
-export type AllSanitySchemaTypes =
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | SanityFileAsset
-  | Geopoint
-  | Post
-  | Author
-  | Slug
-  | Settings
-  | SanityImageCrop
-  | SanityImageHotspot
-  | SanityImageAsset
-  | SanityAssetSourceData
-  | SanityImageMetadata
-  | SanityAssistInstructionTask
-  | SanityAssistTaskStatus
-  | SanityAssistSchemaTypeAnnotations
-  | SanityAssistOutputType
-  | SanityAssistOutputField
-  | SanityAssistInstructionContext
-  | AssistInstructionContext
-  | SanityAssistInstructionUserInput
-  | SanityAssistInstructionPrompt
-  | SanityAssistInstructionFieldRef
-  | SanityAssistInstruction
-  | SanityAssistSchemaTypeField;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | ContentBlock | Cta | MenuItem | Menu | Page | Post | Author | Slug | Settings | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -482,7 +645,7 @@ export type SettingsQueryResult = {
   };
 } | null;
 // Variable: heroQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {    content,      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {		content,			_id,	"status": select(_originalId in path("drafts.**") => "draft", "published"),	"title": coalesce(title, "Untitled"),	"slug": slug.current,	excerpt,	coverImage,	"date": coalesce(date, _updatedAt),	"author": author->{"name": coalesce(name, "Anonymous"), picture},	}
 export type HeroQueryResult = {
   content: Array<{
     children?: Array<{
@@ -537,7 +700,7 @@ export type HeroQueryResult = {
   } | null;
 } | null;
 // Variable: moreStoriesQuery
-// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
+// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {			_id,	"status": select(_originalId in path("drafts.**") => "draft", "published"),	"title": coalesce(title, "Untitled"),	"slug": slug.current,	excerpt,	coverImage,	"date": coalesce(date, _updatedAt),	"author": author->{"name": coalesce(name, "Anonymous"), picture},	}
 export type MoreStoriesQueryResult = Array<{
   _id: string;
   status: "draft" | "published";
@@ -574,7 +737,7 @@ export type MoreStoriesQueryResult = Array<{
   } | null;
 }>;
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {    content,      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
+// Query: *[_type == "post" && slug.current == $slug] [0] {		content,			_id,	"status": select(_originalId in path("drafts.**") => "draft", "published"),	"title": coalesce(title, "Untitled"),	"slug": slug.current,	excerpt,	coverImage,	"date": coalesce(date, _updatedAt),	"author": author->{"name": coalesce(name, "Anonymous"), picture},	}
 export type PostQueryResult = {
   content: Array<{
     children?: Array<{
@@ -628,6 +791,406 @@ export type PostQueryResult = {
     } | null;
   } | null;
 } | null;
+// Variable: pageQuery
+// Query: *[_type=='page' && slug.current == $slug] [0] {		"blocks": blocks[]->{					title,	variant,	heading,	subheadline,	"responsiveImage": responsiveImage.asset->{	url, 	source,	altText},	"gallery": gallery[].asset->{	url, 	source,	altText},	richTextBlock,	"ctaGroup": ctaGroup[]->{			ctaCopy,	link,	icon,	},	twoColumns {		"columnOne": columnOne[]->{				title,	variant,	heading,	subheadline,	"responsiveImage": responsiveImage.asset->{	url, 	source,	altText},	"gallery": gallery[].asset->{	url, 	source,	altText},	richTextBlock,	"ctaGroup": ctaGroup[]->{			ctaCopy,	link,	icon,	},		},		"columnTwo": columnTwo[]->{				title,	variant,	heading,	subheadline,	"responsiveImage": responsiveImage.asset->{	url, 	source,	altText},	"gallery": gallery[].asset->{	url, 	source,	altText},	richTextBlock,	"ctaGroup": ctaGroup[]->{			ctaCopy,	link,	icon,	},		},	},	"ctaGroup": ctaGroup[]->{			ctaCopy,	link,	icon,	}		}	}
+export type PageQueryResult = {
+  blocks: Array<{
+    title: string | null;
+    variant: "columns" | "CTA group" | "gallery" | "responsive image" | "rich text block" | null;
+    heading: string | null;
+    subheadline: string | null;
+    responsiveImage: {
+      url: string | null;
+      source: SanityAssetSourceData | null;
+      altText: string | null;
+    } | null;
+    gallery: Array<{
+      url: string | null;
+      source: SanityAssetSourceData | null;
+      altText: string | null;
+    } | null> | null;
+    richTextBlock: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      title?: string;
+      ctaCopy?: string;
+      link?: string;
+      icon?: string;
+      _type: "cta";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+    }> | null;
+    ctaGroup: Array<{
+      ctaCopy: string | null;
+      link: string | null;
+      icon: string | null;
+    }> | null;
+    twoColumns: {
+      columnOne: Array<{
+        title: string | null;
+        variant: "columns" | "CTA group" | "gallery" | "responsive image" | "rich text block" | null;
+        heading: string | null;
+        subheadline: string | null;
+        responsiveImage: {
+          url: string | null;
+          source: SanityAssetSourceData | null;
+          altText: string | null;
+        } | null;
+        gallery: Array<{
+          url: string | null;
+          source: SanityAssetSourceData | null;
+          altText: string | null;
+        } | null> | null;
+        richTextBlock: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        } | {
+          title?: string;
+          ctaCopy?: string;
+          link?: string;
+          icon?: string;
+          _type: "cta";
+          _key: string;
+        } | {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+        }> | null;
+        ctaGroup: Array<{
+          ctaCopy: string | null;
+          link: string | null;
+          icon: string | null;
+        }> | null;
+      }> | null;
+      columnTwo: Array<{
+        title: string | null;
+        variant: "columns" | "CTA group" | "gallery" | "responsive image" | "rich text block" | null;
+        heading: string | null;
+        subheadline: string | null;
+        responsiveImage: {
+          url: string | null;
+          source: SanityAssetSourceData | null;
+          altText: string | null;
+        } | null;
+        gallery: Array<{
+          url: string | null;
+          source: SanityAssetSourceData | null;
+          altText: string | null;
+        } | null> | null;
+        richTextBlock: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        } | {
+          title?: string;
+          ctaCopy?: string;
+          link?: string;
+          icon?: string;
+          _type: "cta";
+          _key: string;
+        } | {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+        }> | null;
+        ctaGroup: Array<{
+          ctaCopy: string | null;
+          link: string | null;
+          icon: string | null;
+        }> | null;
+      }> | null;
+    } | null;
+  }> | null;
+} | null;
+// Variable: navBarQuery
+// Query: *[_type=='menu' && name=='Navbar']{		'items': items[]->{ 			name, 			"slug": slug.current, 			children[]->{				name, 				"slug": slug.current 			}		}	}
+export type NavBarQueryResult = Array<{
+  items: Array<{
+    name: string | null;
+    slug: string | null;
+    children: Array<{
+      name: string | null;
+      slug: string | null;
+    }> | null;
+  }> | null;
+}>;
+// Variable: utilityCtaMenuQuery
+// Query: *[_type=='menu' && name=='Utility CTA Bar']{		'items': items[]->{ 			name, 			"slug": slug.current,			"image": image.asset->{	url, 	source,	altText},		}	}
+export type UtilityCtaMenuQueryResult = Array<{
+  items: Array<{
+    name: string | null;
+    slug: string | null;
+    image: {
+      url: string | null;
+      source: SanityAssetSourceData | null;
+      altText: string | null;
+    } | null;
+  }> | null;
+}>;
+// Variable: ctaQuery
+// Query: *[_type=='cta' && slug.current == $slug] [0] {			ctaCopy,	link,	icon,	}
+export type CtaQueryResult = {
+  ctaCopy: string | null;
+  link: string | null;
+  icon: string | null;
+} | null;
+// Variable: contentBlockQuery
+// Query: *[_type=='contentBlock' && defined(variant)] [0] {				title,	variant,	heading,	subheadline,	"responsiveImage": responsiveImage.asset->{	url, 	source,	altText},	"gallery": gallery[].asset->{	url, 	source,	altText},	richTextBlock,	"ctaGroup": ctaGroup[]->{			ctaCopy,	link,	icon,	},	twoColumns {		"columnOne": columnOne[]->{				title,	variant,	heading,	subheadline,	"responsiveImage": responsiveImage.asset->{	url, 	source,	altText},	"gallery": gallery[].asset->{	url, 	source,	altText},	richTextBlock,	"ctaGroup": ctaGroup[]->{			ctaCopy,	link,	icon,	},		},		"columnTwo": columnTwo[]->{				title,	variant,	heading,	subheadline,	"responsiveImage": responsiveImage.asset->{	url, 	source,	altText},	"gallery": gallery[].asset->{	url, 	source,	altText},	richTextBlock,	"ctaGroup": ctaGroup[]->{			ctaCopy,	link,	icon,	},		},	},	"ctaGroup": ctaGroup[]->{			ctaCopy,	link,	icon,	}	}
+export type ContentBlockQueryResult = {
+  title: string | null;
+  variant: "columns" | "CTA group" | "gallery" | "responsive image" | "rich text block" | null;
+  heading: string | null;
+  subheadline: string | null;
+  responsiveImage: {
+    url: string | null;
+    source: SanityAssetSourceData | null;
+    altText: string | null;
+  } | null;
+  gallery: Array<{
+    url: string | null;
+    source: SanityAssetSourceData | null;
+    altText: string | null;
+  } | null> | null;
+  richTextBlock: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    title?: string;
+    ctaCopy?: string;
+    link?: string;
+    icon?: string;
+    _type: "cta";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }> | null;
+  ctaGroup: Array<{
+    ctaCopy: string | null;
+    link: string | null;
+    icon: string | null;
+  }> | null;
+  twoColumns: {
+    columnOne: Array<{
+      title: string | null;
+      variant: "columns" | "CTA group" | "gallery" | "responsive image" | "rich text block" | null;
+      heading: string | null;
+      subheadline: string | null;
+      responsiveImage: {
+        url: string | null;
+        source: SanityAssetSourceData | null;
+        altText: string | null;
+      } | null;
+      gallery: Array<{
+        url: string | null;
+        source: SanityAssetSourceData | null;
+        altText: string | null;
+      } | null> | null;
+      richTextBlock: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        title?: string;
+        ctaCopy?: string;
+        link?: string;
+        icon?: string;
+        _type: "cta";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }> | null;
+      ctaGroup: Array<{
+        ctaCopy: string | null;
+        link: string | null;
+        icon: string | null;
+      }> | null;
+    }> | null;
+    columnTwo: Array<{
+      title: string | null;
+      variant: "columns" | "CTA group" | "gallery" | "responsive image" | "rich text block" | null;
+      heading: string | null;
+      subheadline: string | null;
+      responsiveImage: {
+        url: string | null;
+        source: SanityAssetSourceData | null;
+        altText: string | null;
+      } | null;
+      gallery: Array<{
+        url: string | null;
+        source: SanityAssetSourceData | null;
+        altText: string | null;
+      } | null> | null;
+      richTextBlock: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        title?: string;
+        ctaCopy?: string;
+        link?: string;
+        icon?: string;
+        _type: "cta";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }> | null;
+      ctaGroup: Array<{
+        ctaCopy: string | null;
+        link: string | null;
+        icon: string | null;
+      }> | null;
+    }> | null;
+  } | null;
+} | null;
+// Variable: menuItemQuery
+// Query: *[_type=='menuItem'] [0] {			ctaCopy,	link,	icon,		}
+export type MenuItemQueryResult = {
+  ctaCopy: null;
+  link: null;
+  icon: null;
+} | null;
+// Variable: ctaGroupQuery
+// Query: *[_type=='contentBlock' && defined(ctaGroup)] [0] {		"ctaGroup": ctaGroup[]->{				ctaCopy,	link,	icon,		}	}
+export type CtaGroupQueryResult = {
+  ctaGroup: Array<{
+    ctaCopy: string | null;
+    link: string | null;
+    icon: string | null;
+  }> | null;
+} | null;
 
 // Source: ./app/(blog)/posts/[slug]/page.tsx
 // Variable: postSlugs
@@ -640,10 +1203,17 @@ export type PostSlugsResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '*[_type == "settings"][0]': SettingsQueryResult;
-    '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {\n    content,\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': HeroQueryResult;
-    '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': MoreStoriesQueryResult;
-    '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content,\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': PostQueryResult;
-    '*[_type == "post" && defined(slug.current)]{"slug": slug.current}': PostSlugsResult;
+    "*[_type == \"settings\"][0]": SettingsQueryResult;
+    "\n\t*[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {\n\t\tcontent,\n\t\t\n\t_id,\n\t\"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n\t\"title\": coalesce(title, \"Untitled\"),\n\t\"slug\": slug.current,\n\texcerpt,\n\tcoverImage,\n\t\"date\": coalesce(date, _updatedAt),\n\t\"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n\t}\n": HeroQueryResult;
+    "\n\t*[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n\t\t\n\t_id,\n\t\"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n\t\"title\": coalesce(title, \"Untitled\"),\n\t\"slug\": slug.current,\n\texcerpt,\n\tcoverImage,\n\t\"date\": coalesce(date, _updatedAt),\n\t\"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n\t}\n": MoreStoriesQueryResult;
+    "\n\t*[_type == \"post\" && slug.current == $slug] [0] {\n\t\tcontent,\n\t\t\n\t_id,\n\t\"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n\t\"title\": coalesce(title, \"Untitled\"),\n\t\"slug\": slug.current,\n\texcerpt,\n\tcoverImage,\n\t\"date\": coalesce(date, _updatedAt),\n\t\"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n\t}\n": PostQueryResult;
+    "\n\t*[_type=='page' && slug.current == $slug] [0] {\n\t\t\"blocks\": blocks[]->{\n\t\t\t\n\t\n\ttitle,\n\tvariant,\n\theading,\n\tsubheadline,\n\t\"responsiveImage\": responsiveImage.asset->{\n\turl, \n\tsource,\n\taltText\n},\n\t\"gallery\": gallery[].asset->{\n\turl, \n\tsource,\n\taltText\n},\n\trichTextBlock,\n\t\"ctaGroup\": ctaGroup[]->{\n\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\n\t},\n\n\ttwoColumns {\n\t\t\"columnOne\": columnOne[]->{\n\t\t\t\n\ttitle,\n\tvariant,\n\theading,\n\tsubheadline,\n\t\"responsiveImage\": responsiveImage.asset->{\n\turl, \n\tsource,\n\taltText\n},\n\t\"gallery\": gallery[].asset->{\n\turl, \n\tsource,\n\taltText\n},\n\trichTextBlock,\n\t\"ctaGroup\": ctaGroup[]->{\n\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\n\t},\n\n\t\t},\n\t\t\"columnTwo\": columnTwo[]->{\n\t\t\t\n\ttitle,\n\tvariant,\n\theading,\n\tsubheadline,\n\t\"responsiveImage\": responsiveImage.asset->{\n\turl, \n\tsource,\n\taltText\n},\n\t\"gallery\": gallery[].asset->{\n\turl, \n\tsource,\n\taltText\n},\n\trichTextBlock,\n\t\"ctaGroup\": ctaGroup[]->{\n\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\n\t},\n\n\t\t},\n\t},\n\t\"ctaGroup\": ctaGroup[]->{\n\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\n\t}\n\n\t\t}\n\t}\n": PageQueryResult;
+    "\n\t*[_type=='menu' && name=='Navbar']{\n\t\t'items': items[]->{ \n\t\t\tname, \n\t\t\t\"slug\": slug.current, \n\t\t\tchildren[]->{\n\t\t\t\tname, \n\t\t\t\t\"slug\": slug.current \n\t\t\t}\n\t\t}\n\t}\n": NavBarQueryResult;
+    "\n\t*[_type=='menu' && name=='Utility CTA Bar']{\n\t\t'items': items[]->{ \n\t\t\tname, \n\t\t\t\"slug\": slug.current,\n\t\t\t\"image\": image.asset->{\n\turl, \n\tsource,\n\taltText\n},\n\t\t}\n\t}\n": UtilityCtaMenuQueryResult;
+    "\n\t*[_type=='cta' && slug.current == $slug] [0] {\n\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\n\t}\n": CtaQueryResult;
+    "\n\t*[_type=='contentBlock' && defined(variant)] [0] {\n\t\t\n\t\n\ttitle,\n\tvariant,\n\theading,\n\tsubheadline,\n\t\"responsiveImage\": responsiveImage.asset->{\n\turl, \n\tsource,\n\taltText\n},\n\t\"gallery\": gallery[].asset->{\n\turl, \n\tsource,\n\taltText\n},\n\trichTextBlock,\n\t\"ctaGroup\": ctaGroup[]->{\n\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\n\t},\n\n\ttwoColumns {\n\t\t\"columnOne\": columnOne[]->{\n\t\t\t\n\ttitle,\n\tvariant,\n\theading,\n\tsubheadline,\n\t\"responsiveImage\": responsiveImage.asset->{\n\turl, \n\tsource,\n\taltText\n},\n\t\"gallery\": gallery[].asset->{\n\turl, \n\tsource,\n\taltText\n},\n\trichTextBlock,\n\t\"ctaGroup\": ctaGroup[]->{\n\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\n\t},\n\n\t\t},\n\t\t\"columnTwo\": columnTwo[]->{\n\t\t\t\n\ttitle,\n\tvariant,\n\theading,\n\tsubheadline,\n\t\"responsiveImage\": responsiveImage.asset->{\n\turl, \n\tsource,\n\taltText\n},\n\t\"gallery\": gallery[].asset->{\n\turl, \n\tsource,\n\taltText\n},\n\trichTextBlock,\n\t\"ctaGroup\": ctaGroup[]->{\n\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\n\t},\n\n\t\t},\n\t},\n\t\"ctaGroup\": ctaGroup[]->{\n\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\n\t}\n\n\t}\n": ContentBlockQueryResult;
+    "\n\t*[_type=='menuItem'] [0] {\n\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\t\n\t}\n": MenuItemQueryResult;
+    "\n\t*[_type=='contentBlock' && defined(ctaGroup)] [0] {\n\t\t\"ctaGroup\": ctaGroup[]->{\n\t\t\t\n\tctaCopy,\n\tlink,\n\ticon,\n\n\t\t}\n\t}\n": CtaGroupQueryResult;
+    "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
   }
 }

@@ -18,6 +18,11 @@ import { pageStructure, singletonPlugin } from "@/sanity/plugins/settings";
 import { assistWithPresets } from "@/sanity/plugins/assist";
 import author from "@/sanity/schemas/documents/author";
 import post from "@/sanity/schemas/documents/post";
+import page from "@/sanity/schemas/documents/page";
+import menuItem from "./sanity/schemas/documents/menuItem";
+import menu from "./sanity/schemas/documents/menu";
+import cta from "./sanity/schemas/documents/cta";
+import contentBlock from "./sanity/schemas/documents/contentBlock";
 import settings from "@/sanity/schemas/singletons/settings";
 import { resolveHref } from "@/sanity/lib/utils";
 
@@ -37,6 +42,11 @@ export default defineConfig({
       // Documents
       post,
       author,
+      page,
+      menuItem,
+      menu,
+      cta,
+      contentBlock,
     ],
   },
   plugins: [

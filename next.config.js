@@ -7,4 +7,20 @@ module.exports = {
   logging: {
     fetches: { fullUrl: false },
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io", 
+      },
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com", 
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.builder.io"
+      },
+    ],
+  },
 };

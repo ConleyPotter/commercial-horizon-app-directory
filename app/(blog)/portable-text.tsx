@@ -8,6 +8,7 @@
  *
  */
 
+import { Button } from "@/components/ui/Button";
 import {
   PortableText,
   type PortableTextComponents,
@@ -38,6 +39,11 @@ export default function CustomPortableText({
           </a>
         );
       },
+      CTA: ({ value }) => (
+        <Button>
+          {value.ctaCopy}
+        </Button>
+      )
     },
   };
 

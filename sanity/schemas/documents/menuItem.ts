@@ -1,6 +1,6 @@
 import { defineField, defineType } from "sanity";
 
-export const menuItemType = defineType({
+export default defineType({
     name: "menuItem",
     title: "Menu Item",
     type: "document",
