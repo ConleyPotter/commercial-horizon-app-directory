@@ -30,7 +30,7 @@ const customPortableTextComponents = {
     //     altText: value.altText,
     //   }} />
     // ),
-    callToAction: ({ value, isInline }: CallToActionProps) => 
+    cta: ({ value, isInline }: CallToActionProps) => 
       isInline ? (
         <a href={value.link} className="text-primary underline-offset-4 hover:underline">{value.ctaCopy}</a>
       ) : (
