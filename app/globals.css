@@ -67,3 +67,64 @@
     @apply bg-background text-foreground;
   }
 }
+
+.portable-text {
+  h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+  }
+
+  h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+  }
+
+  h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+  }
+
+  h4 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+  }
+
+  h5 {
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+  }
+
+  h6 {
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+  }
+
+  p {
+      margin-bottom: 1rem;
+  }
+
+  ul {
+      margin-bottom: 1rem;
+  } 
+
+  ol {
+      margin-bottom: 1rem;
+  }
+
+  blockquote {
+      margin-bottom: 1rem;
+  }
+
+  pre {
+      margin-bottom: 1rem;
+  }
+
+  code {
+      margin-bottom: 1rem;
+  }
+
+  a {
+      /* color: var(--primary); */
+      text-decoration: none;
+  }
+}

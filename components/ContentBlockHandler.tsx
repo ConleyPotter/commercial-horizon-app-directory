@@ -53,7 +53,7 @@ export const ContentBlockHandler: React.FC<ContentBlockHandlerProps> = ({ conten
         case 'rich text block':
             const { richTextBlock }: { richTextBlock: Exclude<typeof contentBlock.richTextBlock, undefined>} = contentBlock;
             if(richTextBlock) {
-                return <div><CustomPortableText value={richTextBlock!}/></div>
+                return <div className="portable-text"><CustomPortableText value={richTextBlock!}/></div>
             }
             break;
         case 'CTA group':
