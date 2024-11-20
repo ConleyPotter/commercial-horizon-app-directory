@@ -11,13 +11,9 @@ export const Columns: React.FC<ColumnsProps> = ({ twoColumns: { columnOne, colum
     return (
         <div className="flex justify-center items-center">
             <div className="flex-1 p-4 flex flex-col items-center">
-                {columnOne && columnOne.map((block: any) => {
-                    if (block.variant == 'responsive image') {
-                        return <IdealImage image={block.responsiveImage} fit={'default'} key={uuid()} />
-                    } else {
-                        <ContentBlockHandler contentBlock={block} key={uuid()} />
-                    }
-                })}
+                {columnOne && columnOne.map((block: any) => (
+                    <ContentBlockHandler contentBlock={block} key={uuid()} />
+                ))}
             </div>
             <div className="flex-1 p-4 flex flex-col items-center">
                 {columnTwo && columnTwo.map((block: any) => (

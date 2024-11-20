@@ -37,26 +37,26 @@ export const ContentBlockHandler: React.FC<ContentBlockHandlerProps> = ({ conten
                     ctaGroup: ctaGroup,
                 }))} />)
             }
-            break
+            break;
         case 'columns':
             let { twoColumns }: { twoColumns: ColumnsType | null } = contentBlock!;
             if (twoColumns) {
               return <Columns twoColumns={twoColumns} />  
             } 
-            break
+            break;
         case 'responsive image':
             let { responsiveImage }: { responsiveImage: ResponsiveImage } = contentBlock;
             if (responsiveImage && responsiveImage.url) {
                 return <div className="p-0 m-0 w-full"><IdealImage className="w-full" image={responsiveImage} /></div>
             } 
-            break
+            break;
         case 'rich text block':
             const { richTextBlock }: { richTextBlock: Exclude<typeof contentBlock.richTextBlock, undefined>} = contentBlock;
             if(richTextBlock) {
                 return <div><CustomPortableText value={richTextBlock!}/></div>
             }
+            break;
         case 'CTA group':
             return ctaGroup ? <CtaGroup ctaGroup={ctaGroup} /> : null;
-
     }
 }

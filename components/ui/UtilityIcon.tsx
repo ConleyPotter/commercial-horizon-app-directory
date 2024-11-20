@@ -17,3 +17,11 @@ const UtilityIcon: React.FC<UtilityIconProps> = ({ src, alt }) => {
 };
 
 export default UtilityIcon;
+
+const utility = () => {
+  return (
+    <div>
+      <UtilityIcon src="https://via.placeholder.com/150" alt="placeholder" />
+    </div>
+  );
+}
