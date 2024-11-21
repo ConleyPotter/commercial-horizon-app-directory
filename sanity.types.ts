@@ -76,6 +76,32 @@ export type ProductLandingPage = {
   _rev: string;
   title?: string;
   slug?: Slug;
+  featured_image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  meta_data?: {
+    meta_title?: string;
+    meta_description?: string;
+    open_graph_image?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  };
   construction_features?: Array<{
     children?: Array<{
       marks?: Array<string>;

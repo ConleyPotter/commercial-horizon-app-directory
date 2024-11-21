@@ -29,6 +29,7 @@ import { resolveHref } from "@/sanity/lib/utils";
 // for the Sanity Media Plugin: https://www.sanity.io/plugins/sanity-plugin-media
 import { media } from "sanity-plugin-media";
 import productLandingPage from "./sanity/schemas/documents/productLandingPage";
+import blankPage from "./sanity/schemas/documents/blankPage";
 
 const homeLocation = {
   title: "Home",
@@ -52,6 +53,7 @@ export default defineConfig({
       cta,
       contentBlock,
       productLandingPage,
+      blankPage,
     ],
   },
   plugins: [
