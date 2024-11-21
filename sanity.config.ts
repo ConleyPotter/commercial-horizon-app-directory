@@ -26,6 +26,10 @@ import contentBlock from "./sanity/schemas/documents/contentBlock";
 import settings from "@/sanity/schemas/singletons/settings";
 import { resolveHref } from "@/sanity/lib/utils";
 
+// for the Sanity Media Plugin: https://www.sanity.io/plugins/sanity-plugin-media
+import { media } from "sanity-plugin-media";
+import productLandingPage from "./sanity/schemas/documents/productLandingPage";
+
 const homeLocation = {
   title: "Home",
   href: "/",
@@ -47,6 +51,7 @@ export default defineConfig({
       menu,
       cta,
       contentBlock,
+      productLandingPage,
     ],
   },
   plugins: [
@@ -95,5 +100,7 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     process.env.NODE_ENV === "development" &&
       visionTool({ defaultApiVersion: apiVersion }),
+    // Media plugin. A convenient way to browse, manage and refine your Sanity assets.
+    media(),
   ].filter(Boolean) as PluginOptions[],
 });
