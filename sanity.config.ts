@@ -30,6 +30,8 @@ import { resolveHref } from "@/sanity/lib/utils";
 import { media } from "sanity-plugin-media";
 import productLandingPage from "./sanity/schemas/documents/productLandingPage";
 import blankPage from "./sanity/schemas/documents/blankPage";
+import productCategory from "./sanity/schemas/documents/productCategory";
+import product from "./sanity/schemas/documents/product";
 
 const homeLocation = {
   title: "Home",
@@ -54,6 +56,8 @@ export default defineConfig({
       contentBlock,
       productLandingPage,
       blankPage,
+      productCategory,
+      product,
     ],
   },
   plugins: [
