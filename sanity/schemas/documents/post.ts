@@ -62,7 +62,7 @@ export default defineType({
         },
       },
       fields: [
-        {
+        defineField({
           name: "alt",
           type: "string",
           title: "Alternative text",
@@ -75,7 +75,7 @@ export default defineType({
               return true;
             });
           },
-        },
+        }),
       ],
       validation: (rule) => rule.required(),
     }),

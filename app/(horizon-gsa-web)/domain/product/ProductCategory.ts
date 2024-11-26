@@ -3,7 +3,7 @@ export interface ProductCategory {
   title: string;
   slug: string; // Slug for URL generation
   description: string; // Description of the category
-  image: {
+  image?: {
     _type: "image";
     asset: {
       _ref: string; // Reference to the image asset
@@ -15,7 +15,7 @@ export interface ProductCategory {
       height: number;
       width: number;
     };
-  };
+  }; // Make image optional if needed
   seo: {
     metaTitle: string;
     metaDescription: string;

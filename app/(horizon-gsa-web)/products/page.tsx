@@ -1,16 +1,35 @@
-export async function getServerSideProps() {
-  const res = await fetch(`https://...`);
-  const products = await res.json();
+// app/product-categories/page.tsx
+import SanityProductRepository from "../dataSource/sanity/product/sanityProductRepository";
+import { ProductCategory } from "@/app/(horizon-gsa-web)/domain/product/ProductCategory";
 
-  return { props: { products } };
+// Instantiate the repository
+const productRepository = new SanityProductRepository();
+
+interface ProductCategoriesPageProps {
+  productCategories: ProductCategory[];
 }
 
-export default function Products({ products }) {
+export default async function ProductCategoriesPage() {
+  const productCategories: ProductCategory[] =
+    await productRepository.getProductCategories();
   return (
-    <ul>
-      {products.map((product) => (
-        <li key={product.id}>{product.name}</li>
-      ))}
-    </ul>
+    <div>
+      <h1>Product Categories</h1>
+      <ul>
+        {productCategories.map((category) => (
+          <li key={category.id}>
+            <h2>{category.title}</h2>
+            <p>{category.description}</p>
+            {category.image && (
+              <img
+                src={category.image.asset._ref}
+                alt={category.title}
+                style={{ width: "200px", height: "auto" }}
+              />
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

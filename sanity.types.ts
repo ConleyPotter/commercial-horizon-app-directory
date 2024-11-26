@@ -75,13 +75,7 @@ export type Product = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  slug?: Slug;
-  productCategory?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "productCategory";
-  };
+  slug?: string;
   description?: string;
   price?: number;
   images?: Array<{
@@ -96,6 +90,12 @@ export type Product = {
     _type: "image";
     _key: string;
   }>;
+  productCategory?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "productCategory";
+  };
 };
 
 export type ProductCategory = {
@@ -104,6 +104,12 @@ export type ProductCategory = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  parentCategory?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "productCategory";
+  };
   title?: string;
   slug?: Slug;
   description?: string;
