@@ -2,8 +2,9 @@ import { Product } from "./Product";
 import { ProductCategory } from "./ProductCategory";
 
 export interface ProductRepository {
-  getChildCategoriesByParentSlug(
-    parentCategorySlug: string
-  ): Promise<ProductCategory>;
   getTopLevelProductCategories(): Promise<ProductCategory[]>;
+  getChildCategoriesBySlug(
+    parentCategorySlug: string
+  ): Promise<ProductCategory[]>;
+  getChildProductsBySlug(topLevelCategorySlug: string): Promise<Product[]>;
 }
