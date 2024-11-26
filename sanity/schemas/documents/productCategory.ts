@@ -15,6 +15,7 @@ export default {
       name: "title",
       title: "Title",
       type: "string",
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
@@ -24,12 +25,14 @@ export default {
         source: "title",
         maxLength: 96,
       },
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "text",
       description: "A short description of the category",
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "image",
@@ -38,6 +41,7 @@ export default {
       options: {
         hotspot: true,
       },
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "seo",
@@ -55,6 +59,7 @@ export default {
           type: "text",
         },
       ],
+      validation: (rule) => rule.required(),
     }),
   ],
 };

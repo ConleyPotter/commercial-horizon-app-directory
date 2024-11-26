@@ -75,7 +75,7 @@ export type Product = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  slug?: string;
+  slug?: Slug;
   description?: string;
   price?: number;
   images?: Array<{

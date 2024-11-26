@@ -370,7 +370,8 @@
       "slug": {
         "type": "objectAttribute",
         "value": {
-          "type": "string"
+          "type": "inline",
+          "name": "slug"
         },
         "optional": true
       },
