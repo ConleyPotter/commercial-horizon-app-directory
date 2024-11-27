@@ -1,7 +1,7 @@
 export interface ProductCategory {
   id: string; // Sanity document ID
   title: string;
-  slug: string; // Slug for URL generation
+  slug: string | { current: string; _type: string }; 
   description: string; // Description of the category
   image?: {
     _type: "image";

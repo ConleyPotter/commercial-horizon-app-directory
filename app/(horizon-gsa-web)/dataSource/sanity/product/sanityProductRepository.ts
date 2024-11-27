@@ -1,4 +1,3 @@
-import { sanityFetch } from "@/sanity/lib/fetch";
 import { Product } from "@/app/(horizon-gsa-web)/domain/product/Product";
 import { ProductCategory } from "@/app/(horizon-gsa-web)/domain/product/ProductCategory";
 import { ProductRepository } from "@/app/(horizon-gsa-web)/domain/product/ProductRepository";
@@ -33,59 +32,166 @@ class SanityProductRepository implements ProductRepository {
     const results = await this.sanityClient.fetch(query);
     return results.map((result: any) => this._mapToProductCategory(result));
   }
-  async getChildCategoriesBySlug(
-    topLevelCategorySlug: string
-  ): Promise<ProductCategory[]> {
-    const query = `
-      *[_type == "productCategory" && slug.current == $slug][0] {
-        _id,
-        title,
-        slug,
-        description,
-        image,
-        seo,
-        "children": *[_type == "productCategory" && parentCategory._ref == ^._id]
+
+  async getProductCategoryBySlug(slug: string): Promise<ProductCategory> {
+    const query = `*[_type == "productCategory" && slug.current == $slug][0] {
+      _id,
+      title,
+      slug,
+      description,
+      image {
+        asset->{
+          url,
+          metadata
+        }
+      },
+      seo {
+        metaTitle,
+        metaDescription
       }
-    `;
+    }`;
 
-    const result = await this.sanityClient.fetch(query, {
-      slug: topLevelCategorySlug,
-    });
-
-    if (!result) {
-      throw new Error(
-        `Category with slug "${topLevelCategorySlug}" not found.`
-      );
-    }
-
-    return result.children.map(this._mapToProductCategory);
+    const result = await this.sanityClient.fetch(query, { slug });
+    return this._mapToProductCategory(result);
   }
-  async getChildProductsBySlug(
-    topLevelCategorySlug: string
-  ): Promise<Product[]> {
-    const query = `
-      *[_type == "productCategory" && slug.current == $slug][0] {
+  async getProductsByCategorySlug(
+    parentCategorySlug: string
+  ): Promise<ProductCategory[]> {
+    const query = `*[_type == "productCategory" && parentCategory->slug.current == $slug] {
+      _id,
+      title,
+      "slug": slug.current,
+      description,
+      image {
+        asset->{
+          url,
+          metadata
+        }
+      },
+      seo {
+        metaTitle,
+        metaDescription
+      }
+    }`;
+
+    return this.sanityClient.fetch(query, { slug: parentCategorySlug });
+  }
+  async getSubCategoriesByParentSlug(
+    parentCategorySlug: string
+  ): Promise<ProductCategory[]> {
+    const query = `*[_type == "productCategory" && parentCategory->slug.current == $slug] {
+      _id,
+      title,
+      "slug": slug.current,
+      description,
+      image {
+        asset->{
+          url,
+          metadata
+        }
+      },
+      seo {
+        metaTitle,
+        metaDescription
+      }
+    }`;
+
+    const results = await this.sanityClient.fetch(query, {
+      slug: parentCategorySlug,
+    });
+    return results.map((result: any) => this._mapToProductCategory(result));
+  }
+  async getCategoryBySlug(slug: string): Promise<ProductCategory> {
+    const query = `*[_type == "productCategory" && slug.current == $slug][0] {
+      _id,
+      title,
+      slug,
+      description,
+      image {
+        asset->{
+          url,
+          metadata
+        }
+      },
+      seo {
+        metaTitle,
+        metaDescription
+      }
+    }`;
+
+    const result = await this.sanityClient.fetch(query, { slug });
+    return this._mapToProductCategory(result);
+  }
+  async getProductBySlug(slug: string): Promise<Product> {
+    const query = `*[_type == "product" && slug.current == $slug][0] {
+      _id,
+      title,
+      "slug": slug.current,
+      description,
+      price,
+      images,
+      productCategory->{
         _id,
         title,
-        slug,
+        "slug": slug.current,
         description,
-        image,
-        seo,
-        "products": *[_type == "product" && productCategory._ref == ^._id]
+        image {
+          asset->{
+            url,
+            metadata
+          }
+        },
+        seo {
+          metaTitle,
+          metaDescription
+        }`;
+    const result = await this.sanityClient.fetch(query, { slug });
+    return this._mapToProduct(result);
+  }
+
+  async getAllSubcategoriesAndProducts(): Promise<(ProductCategory | Product)[]> {
+    const query = `*[_type == "productCategory" || _type == "product"] {
+      _id,
+      title,
+      "slug": slug.current,
+      description,
+      price,
+      images,
+      productCategory->{
+        _id,
+        title,
+        "slug": slug.current,
+        description,
+        image {
+          asset->{
+            url,
+            metadata
+          }
+        },
+        seo {
+          metaTitle,
+          metaDescription
+        }
+      },
+      image {
+        asset->{
+          url,
+          metadata
+        }
+      },
+      seo {
+        metaTitle,
+        metaDescription
       }
-    `;
-
-    const result = await this.sanityClient.fetch(query, {
-      slug: topLevelCategorySlug,
+    }`;
+    const results = await this.sanityClient.fetch(query);
+    return results.map((result: any) => {
+      if (result._type === "product") {
+        return this._mapToProduct(result);
+      } else {
+        return this._mapToProductCategory(result);
+      }
     });
-
-    if (!result) {
-      throw new Error(
-        `Category with slug "${topLevelCategorySlug}" not found.`
-      );
-    }
-
-    return result.products.map(this._mapToProduct);
   }
 
   private _mapToProduct(data: any): Product {
@@ -100,7 +206,7 @@ class SanityProductRepository implements ProductRepository {
             url: image.asset.url,
             metadata: image.asset.metadata,
           }))
-        : [], // Return an empty array if data.images is not an array
+        : [],
       productCategory: data.productCategory,
     };
   }

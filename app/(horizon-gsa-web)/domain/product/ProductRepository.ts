@@ -3,8 +3,14 @@ import { ProductCategory } from "./ProductCategory";
 
 export interface ProductRepository {
   getTopLevelProductCategories(): Promise<ProductCategory[]>;
-  getChildCategoriesBySlug(
+  getSubCategoriesByParentSlug(
     parentCategorySlug: string
   ): Promise<ProductCategory[]>;
-  getChildProductsBySlug(topLevelCategorySlug: string): Promise<Product[]>;
+  getProductCategoryBySlug(categorySlug: string): Promise<ProductCategory>;
+  getSubCategoriesByParentSlug(
+    parentCategorySlug: string
+  ): Promise<ProductCategory[]>;
+  getCategoryBySlug(slug: string): Promise<ProductCategory>;
+  getProductBySlug(slug: string): Promise<Product>;
+  getAllSubcategoriesAndProducts(): Promise<(ProductCategory | Product)[]>;
 }
