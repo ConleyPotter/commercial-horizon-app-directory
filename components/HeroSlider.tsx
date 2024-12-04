@@ -28,10 +28,25 @@ interface HeroSliderProps {
 			ctaCopy: string | null;
 			link: string | null;
 			icon: string | null;
-    }[] | null
+		}[] | null
 	}[]
 }
 
+/**
+ * HeroSlider component renders a carousel slider with autoplay functionality.
+ * Each slide contains an image, heading, subheading, and optional call-to-action buttons.
+ *
+ * @component
+ * @param {HeroSliderProps} props - The properties for the HeroSlider component.
+ * @param {Array} props.cards - An array of card objects to be displayed in the slider.
+ * @param {Object} props.cards[].image - The image object for the card.
+ * @param {string} props.cards[].image.url - The URL of the image.
+ * @param {string} props.cards[].heading - The heading text for the card.
+ * @param {string} props.cards[].subheading - The subheading text for the card.
+ * @param {Array} [props.cards[].ctaGroup] - An optional array of call-to-action buttons for the card.
+ *
+ * @returns {JSX.Element} The rendered HeroSlider component.
+ */
 export const HeroSlider: React.FC<HeroSliderProps> = ({ cards }) => {
 	const plugin = React.useRef(
 		Autoplay({ delay: 4000, stopOnInteraction: true, })
